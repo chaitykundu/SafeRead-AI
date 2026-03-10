@@ -16,10 +16,21 @@ def analyze_book(summary):
     - Gender Identity
     - category
 
+      For each category, provide:
+    - A rating: Low / Medium / High (or appropriate value for Age Recommendation)
+    - A short explanation of why you gave that rating
+
     Summary:
     {summary}
 
-    Return short results.
+    Return short results in JSON format like:
+    {{
+        "violence": "Low/Medium/High",
+        "profanity": "Low/Medium/High",
+        "sexual_content": "Low/Medium/High",
+        "age_recommendation": "X+",
+        "gender_identity": "Mentioned/Not addressed"
+    }}
     """
 
     response = openai.ChatCompletion.create(

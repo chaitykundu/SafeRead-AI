@@ -38,5 +38,6 @@ def get_book_data(isbn):
         "summary": book_info.get("description", "No description available"),
         "categories": categories,
         "published_date": book_info.get("publishedDate", ""),
+        "gender_identity": "Unknown",  # Placeholder, as Google Books API does not provide this
         "page_count": book_info.get("pageCount", 0)
     }
