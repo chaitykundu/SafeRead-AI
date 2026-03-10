@@ -10,3 +10,4 @@ class SafetyReport(BaseModel):
     profanity: str
     sexual_content: str
     recommended_age: str
+    gender_identity: str

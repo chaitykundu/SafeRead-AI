@@ -1,4 +1,4 @@
 # SafeRead-AI
 
 
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 8002

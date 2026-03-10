@@ -5,6 +5,10 @@ from app.services.ai_analyzer import analyze_book
 
 router = APIRouter()
 
+@router.get("/")
+def root():
+    return {"message": "SafeRead AI API running"}
+
 @router.post("/scan-book")
 def scan_book(req: ISBNRequest):
 
