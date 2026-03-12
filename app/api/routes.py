@@ -22,5 +22,6 @@ def scan_book(req: ISBNRequest):
     return {
         "title": book["title"],
         "authors": book.get("authors", "Unknown Author"),
+        "cover_image": book.get("cover_image"),
         "analysis": ai_result
     }

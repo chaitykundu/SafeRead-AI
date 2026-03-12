@@ -3,3 +3,5 @@ uvicorn
 requests 
 python-dotenv 
 openai==0.28
+sqlalchemy
+psycopg2-binary
