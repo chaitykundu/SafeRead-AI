@@ -20,6 +20,17 @@ For each category provide:
 - level
 - short explanation
 
+When writing the "message", match the tone to the content level and be specific:
+- Mention the exact types of content found (e.g. fantasy violence, dark themes, romantic scenes)
+- Reference the book's context when possible
+- Keep it to 1-2 sentences max
+- Be specific enough for a parent to make an informed decision
+
+Examples:
+- Safe: "This book is appropriate for children. It contains no violence, profanity, or mature themes."
+- Caution: "This book contains mild fantasy violence and references to dark magic. Themes of death and loss are present but handled age-appropriately."  
+- Concerning: "This book contains multiple instances of graphic violence including death and combat scenes. Strong themes of survival and trauma throughout. Parental guidance is strongly recommended."
+
 Summary:
 {summary}
 
@@ -30,7 +41,8 @@ Return JSON only in this format:
   "profanity": {{"level":"None/Mild/High","description":"Explain"}},
   "sexual_content": {{"level":"None/Mild/High","description":"Explain"}},
   "age_recommendation": {{"level":"number+","description":"Explain"}},
-  "gender_identity": {{"level":"Mentioned/Not addressed","description":"Explain"}}
+  "gender_identity": {{"level":"Mentioned/Not addressed","description":"Explain"}},
+  "message": "1-2 sentence specific and descriptive child-safety summary."
 }}
 """
 
@@ -66,27 +78,32 @@ Return JSON only in this format:
     # Calculate overall percentage
     overall_score = int(sum(scores) / len(scores))
 
-    # Assign rating
-    if overall_score < 40:
+    # If any category is High → immediately Red
+    if any(
+        data.get(cat, {}).get("level") == "High"
+        for cat in ["violence", "profanity", "sexual_content"]
+    ):
         rating = "Red"
-    elif overall_score <= 60:
-        rating = "Yellow"
+        text = "Concern"
+
     else:
-        rating = "Green"
+        # Otherwise use overall score
+        if overall_score < 40:
+            rating = "Red"
+            text = "Concern"
+        elif overall_score <= 60:
+            rating = "Yellow"
+            text = "Caution"
+        else:
+            rating = "Green"
+            text = "Safe"
 
-    # Generate dynamic message
-    issues = [cat for cat, score in score_map.items() if score > 50]  # categories above threshold
-
-    if issues:
-        issues_text = ", ".join(issues)
-        message = f"This book contains noticeable content in the following areas: {issues_text}. Please review carefully."
-    else:
-        message = "This book appears safe with minimal sensitive content."
-
+    message = data.pop("message", "No summary available.")
     # Add overall result
     data["overall_score"] = {
         "percentage": overall_score,
         "rating": rating,
+        "text": text,
         "message": message
     }
 

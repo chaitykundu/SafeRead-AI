@@ -16,10 +16,12 @@ def root():
 @router.post("/scan-book")
 def scan_book(request: ISBNRequest):
 
-    isbn = request.isbn
+    # ✅ Clean ISBN FIRST before anything else
+    isbn = request.isbn.strip().replace(" ", "").replace("-", "")
+    
     db: Session = SessionLocal()
 
-    # 🔥 STEP 1: Check if already exists in DB
+    # Now DB check uses clean ISBN
     existing_scan = db.query(BookScan).filter(BookScan.isbn == isbn).first()
 
     if existing_scan:
@@ -32,7 +34,7 @@ def scan_book(request: ISBNRequest):
             "analysis": existing_scan.analysis
         }
 
-    # 🔥 STEP 2: If not in DB → call external API
+    # get_book_data also receives clean ISBN now
     book = get_book_data(isbn)
 
     if not book:
@@ -41,9 +43,8 @@ def scan_book(request: ISBNRequest):
 
     ai_result = analyze_book(book["summary"])
 
-    # 🔥 STEP 3: Save new result
     scan = BookScan(
-        isbn=isbn,
+        isbn=isbn,  # ✅ saves clean ISBN to DB
         title=book.get("title", "Unknown Title"),
         author=book.get("authors", "Unknown Author"),
         cover_image=book.get("cover_image"),

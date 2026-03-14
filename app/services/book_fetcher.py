@@ -9,7 +9,7 @@ load_dotenv()
 GOOGLE_BOOKS_API_KEY = os.getenv("GOOGLE_BOOKS_API_KEY")
 
 def get_book_data(isbn):
-    isbn = isbn.replace("-", "")
+    isbn = isbn.strip().replace(" ", "").replace("-", "")  # ✅ clean spaces and dashes first
     url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&key={GOOGLE_BOOKS_API_KEY}"
     
     try:
