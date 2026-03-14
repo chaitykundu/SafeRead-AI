@@ -27,14 +27,13 @@ def scan_book(request: ISBNRequest):
     db = SessionLocal()
 
     scan = BookScan(
-        isbn=isbn,
-        title=book.get("title", "Unknown Title"),
-        author=book.get("authors", "Unknown Author"),
-        violence=ai_result.get("violence", {}).get("level", "Unknown"),
-        profanity=ai_result.get("profanity", {}).get("level", "Unknown"),
-        sexual_content=ai_result.get("sexual_content", {}).get("level", "Unknown"),
-        summary=book.get("summary", "")
-    )
+    isbn=isbn,
+    title=book.get("title", "Unknown Title"),
+    author=book.get("authors", "Unknown Author"),
+    cover_image=book.get("cover_image"),
+    summary=book.get("summary"),
+    analysis=ai_result   # 👈 full dict see here
+)
 
     db.add(scan)
     db.commit()

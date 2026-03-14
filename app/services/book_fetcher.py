@@ -13,7 +13,7 @@ def get_book_data(isbn):
     url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&key={GOOGLE_BOOKS_API_KEY}"
     
     try:
-        res = requests.get(url, timeout=5)
+        res = requests.get(url, timeout=10)
         res.raise_for_status()
         data = res.json()
         print(f"[DEBUG] Google Books response received for ISBN {isbn}")

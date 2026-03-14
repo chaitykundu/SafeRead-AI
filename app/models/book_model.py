@@ -1,17 +1,17 @@
 from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy.dialects.postgresql import JSON
 from app.database import Base
 
 class BookScan(Base):
-
     __tablename__ = "book_scans"
 
     id = Column(Integer, primary_key=True, index=True)
-    isbn = Column(String)
+    isbn = Column(String, index=True)
+
     title = Column(String)
     author = Column(String)
-
-    violence = Column(String)
-    profanity = Column(String)
-    sexual_content = Column(String)
+    cover_image = Column(String)
+    
+    analysis = Column(JSON)   # 👈 NEW (store full AI result here)
 
     summary = Column(Text)
