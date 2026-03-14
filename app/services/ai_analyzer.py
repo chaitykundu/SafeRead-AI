@@ -4,7 +4,10 @@ import json
 def analyze_book(summary):
 
     prompt = f"""
-Analyze the following book summary for sensitive themes.
+You are a Child Content Safety Expert.
+
+Your task is to evaluate the following book summary
+specifically for CHILDREN.
 
 Categories:
 - Violence
@@ -23,9 +26,9 @@ Summary:
 Return JSON only in this format:
 
 {{
-  "violence": {{"level":"Low/Medium/High","description":"Explain"}},
-  "profanity": {{"level":"Low/Medium/High","description":"Explain"}},
-  "sexual_content": {{"level":"Low/Medium/High","description":"Explain"}},
+  "violence": {{"level":"None/Mild/High","description":"Explain"}},
+  "profanity": {{"level":"None/Mild/High","description":"Explain"}},
+  "sexual_content": {{"level":"None/Mild/High","description":"Explain"}},
   "age_recommendation": {{"level":"number+","description":"Explain"}},
   "gender_identity": {{"level":"Mentioned/Not addressed","description":"Explain"}}
 }}
@@ -49,15 +52,15 @@ Return JSON only in this format:
 
     # Convert ratings to scores
     score_map = {
-        "Low": 90,
-        "Medium": 60,
+        "None": 90,
+        "Mild": 60,
         "High": 20
     }
 
     scores = []
 
     for cat in ["violence", "profanity", "sexual_content"]:
-        level = data.get(cat, {}).get("level", "Low")
+        level = data.get(cat, {}).get("level", "None")
         scores.append(score_map.get(level, 90))
 
     # Calculate overall percentage

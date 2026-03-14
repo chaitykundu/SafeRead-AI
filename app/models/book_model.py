@@ -11,7 +11,7 @@ class BookScan(Base):
     title = Column(String)
     author = Column(String)
     cover_image = Column(String)
-    
-    analysis = Column(JSON)   # 👈 NEW (store full AI result here)
+
+    analysis = Column(JSON)   # NEW (store full AI result here)
 
     summary = Column(Text)
