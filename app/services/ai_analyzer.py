@@ -69,25 +69,41 @@ Return JSON only in this format:
         "High": 20
     }
 
-    scores = []
+    # ✅ Weighted scoring — most critical for child safety
+    weights = {
+        "sexual_content": 0.45,   # 45% — most critical
+        "violence":       0.40,   # 40% — serious
+        "profanity":      0.15    # 15% — least critical
+    }
 
-    for cat in ["violence", "profanity", "sexual_content"]:
+    weighted_score = 0
+    for cat, weight in weights.items():
         level = data.get(cat, {}).get("level", "None")
-        scores.append(score_map.get(level, 90))
+        score = score_map.get(level, 90)
+        weighted_score += score * weight
 
-    # Calculate overall percentage
-    overall_score = int(sum(scores) / len(scores))
+    overall_score = int(weighted_score)
 
-    # If any category is High → immediately Red
+    # ✅ High override — any High forces Red
     if any(
         data.get(cat, {}).get("level") == "High"
         for cat in ["violence", "profanity", "sexual_content"]
     ):
         rating = "Red"
         text = "Concern"
+        overall_score = min(overall_score, 39)
 
+    # ✅ Mild override — any Mild forces at least Yellow
+    elif any(
+        data.get(cat, {}).get("level") == "Mild"
+        for cat in ["violence", "profanity", "sexual_content"]
+    ):
+        rating = "Yellow"
+        text = "Caution"
+        overall_score = min(overall_score, 60)
+
+    # ✅ All None → use weighted score naturally
     else:
-        # Otherwise use overall score
         if overall_score < 40:
             rating = "Red"
             text = "Concern"
@@ -99,7 +115,7 @@ Return JSON only in this format:
             text = "Safe"
 
     message = data.pop("message", "No summary available.")
-    # Add overall result
+
     data["overall_score"] = {
         "percentage": overall_score,
         "rating": rating,
