@@ -100,14 +100,14 @@ Return JSON only in this format:
     ):
         rating = "Yellow"
         text = "Caution"
-        overall_score = min(overall_score, 60)
+        overall_score = min(overall_score, 59)
 
     # ✅ All None → use weighted score naturally
     else:
-        if overall_score < 40:
+        if overall_score <= 39:
             rating = "Red"
             text = "Concern"
-        elif overall_score <= 60:
+        elif overall_score < 59:
             rating = "Yellow"
             text = "Caution"
         else:

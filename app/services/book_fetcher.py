@@ -23,7 +23,16 @@ def get_book_data(isbn):
         return None
 
     if data.get("totalItems", 0) == 0:
-        print(f"[DEBUG] No books found for ISBN {isbn}")
+        print(f"[DEBUG] No books found in Google Books for ISBN {isbn}")
+        print("[DEBUG] Checking Open Library...")
+
+        openlibrary_data = get_openlibrary_data(isbn)
+
+        if openlibrary_data:
+            print("[DEBUG] Book found in Open Library")
+            return openlibrary_data
+
+        print("[DEBUG] Book not found in any API")
         return None
 
     book_info = data["items"][0]["volumeInfo"]
