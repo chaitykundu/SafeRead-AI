@@ -114,13 +114,28 @@ Return JSON only in this format:
             rating = "Green"
             text = "Safe"
 
+    # Extract message
     message = data.pop("message", "No summary available.")
 
-    data["overall_score"] = {
+    # Extract age separately
+    age_recommendation = data.pop("age_recommendation", {}).get("level", "Unknown")
+
+    # Build overall score
+    overall_score_data = {
         "percentage": overall_score,
         "rating": rating,
         "text": text,
         "message": message
     }
 
-    return data
+    # Return clean structured response
+    return {
+        "age_recommendation": age_recommendation,
+        "overall_score": overall_score_data,
+        "ai_insights": {
+            "violence": data.get("violence"),
+            "profanity": data.get("profanity"),
+            "sexual_content": data.get("sexual_content"),
+            "gender_identity": data.get("gender_identity")
+        }
+    }

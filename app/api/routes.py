@@ -31,7 +31,9 @@ def scan_book(request: ISBNRequest):
             "title": existing_scan.title,
             "authors": existing_scan.author,
             "cover_image": existing_scan.cover_image,
-            "analysis": existing_scan.analysis
+            "age_recommendation": existing_scan.analysis.get("age_recommendation"),
+            "overall_score": existing_scan.analysis.get("overall_score"),
+            "ai_insights": existing_scan.analysis.get("ai_insights")
         }
 
     # get_book_data also receives clean ISBN now
@@ -62,5 +64,7 @@ def scan_book(request: ISBNRequest):
         "title": scan.title,
         "authors": scan.author,
         "cover_image": scan.cover_image,
-        "analysis": scan.analysis
+        "age_recommendation": scan.analysis.get("age_recommendation"),
+        "overall_score": scan.analysis.get("overall_score"),
+        "ai_insights": scan.analysis.get("ai_insights")
     }
