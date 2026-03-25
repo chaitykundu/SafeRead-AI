@@ -46,8 +46,19 @@ def get_book_data(isbn):
         categories = []
 
     # ✅ Get cover image
+    # image_links = book_info.get("imageLinks", {})
+    # cover_image = image_links.get("thumbnail", "")
+    # ✅ Get best available cover image and force https
     image_links = book_info.get("imageLinks", {})
-    cover_image = image_links.get("thumbnail", "")
+    cover_image = (
+        image_links.get("extraLarge")
+        or image_links.get("large")
+        or image_links.get("medium")
+        or image_links.get("thumbnail")
+        or ""
+    )
+    if cover_image:
+        cover_image = cover_image.replace("http://", "https://")
 
     google_data = {
         "title": book_info.get("title", "Unknown Title"),
