@@ -6,6 +6,7 @@ from app.services.ai_analyzer import analyze_book
 from app.services.barcode_reader import extract_isbn_from_image
 from app.models.book_model import BookScan
 from app.database import SessionLocal
+from app.services.utils import is_valid_isbn
 
 router = APIRouter()
 
@@ -23,6 +24,13 @@ def scan_book(request: ISBNRequest):
     # ✅ Clean ISBN FIRST before anything else
     isbn = request.isbn.strip().replace(" ", "").replace("-", "")
     
+    # ✅ Validate ISBN structure
+    if not is_valid_isbn(isbn):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid ISBN format. Please provide a valid ISBN-10 or ISBN-13."
+        )
+
     db: Session = SessionLocal()
 
     # Now DB check uses clean ISBN
