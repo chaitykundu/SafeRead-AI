@@ -46,7 +46,7 @@ The system scans a book using its **barcode / ISBN**, fetches metadata from mult
 - Python
 - FastAPI
 - SQLAlchemy
-- SQLite / PostgreSQL
+- PostgreSQL
 
 ### AI & APIs
 - OpenAI API
@@ -117,9 +117,11 @@ python -m venv venv
 source venv/bin/activate
 
 ##Install dependencies
+
 pip install -r requirements.txt
 
 ##Run server
+
 uvicorn app.main:app --reload
 
 uvicorn app.main:app --reload --port 8002
