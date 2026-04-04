@@ -15,7 +15,6 @@ The system scans a book using its **barcode / ISBN**, fetches metadata from mult
 - 📖 **Multi-source Book Metadata Fetching**
   - Google Books API
   - Open Library API
-  - Wikipedia fallback
   - Local database cache
 
 - 🤖 **AI Content Safety Analysis**
@@ -52,7 +51,6 @@ The system scans a book using its **barcode / ISBN**, fetches metadata from mult
 - OpenAI API
 - Google Books API
 - Open Library API
-- Wikipedia API
 
 ### Image Processing
 - Barcode / ISBN extraction
@@ -79,7 +77,6 @@ SafeReadAI/
 │       ├── barcode_reader.py
 │       ├── book_fetcher.py
 │       ├── openlibrary_fetcher.py
-│       └── wiki_service.py
 │
 ├── requirements.txt
 ├── .env
@@ -96,8 +93,6 @@ Check Local Database
 Google Books API
       ↓
 Open Library
-      ↓
-Wikipedia
       ↓
 AI Safety Analysis
       ↓
