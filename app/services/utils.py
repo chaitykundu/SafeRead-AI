@@ -13,3 +13,15 @@ def is_valid_isbn(isbn: str) -> bool:
         check = int(isbn[-1])
         return (10 - total % 10) % 10 == check
     return False
+
+def is_api_quota_available() -> bool:
+    """
+    Check if your AI API token has remaining quota.
+    Replace this logic with your real quota tracking or API call.
+    """
+    # Placeholder example: always returns True for now
+    # Later you can implement:
+    # - track API usage in database
+    # - call AI provider API to check remaining credits
+    remaining_quota = 10  # example static number
+    return remaining_quota > 0

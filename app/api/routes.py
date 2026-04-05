@@ -6,7 +6,8 @@ from app.services.ai_analyzer import analyze_book
 from app.services.barcode_reader import extract_isbn_from_image
 from app.models.book_model import BookScan
 from app.database import SessionLocal
-from app.services.utils import is_valid_isbn
+from app.services.utils import is_valid_isbn, is_api_quota_available
+from openai.error import RateLimitError
 
 router = APIRouter()
 
@@ -54,8 +55,17 @@ def scan_book(request: ISBNRequest):
     if not book:
         db.close()
         return {"error": "Book not found for this ISBN"}
+    
+    try:
+        ai_result = analyze_book(book["summary"])
+    except RateLimitError:
+        db.close()
+        raise HTTPException(
+            status_code=429,
+            detail="API token quota is filled. Please try again later."
+        )
 
-    ai_result = analyze_book(book["summary"])
+    #ai_result = analyze_book(book["summary"])
 
     scan = BookScan(
         isbn=isbn,  # ✅ saves clean ISBN to DB
@@ -136,7 +146,7 @@ async def scan_book_image(file: UploadFile = File(...)):
         )
 
     # Step 4: Run AI analysis (same as manual flow)
-    ai_result = analyze_book(book["summary"])
+    #ai_result = analyze_book(book["summary"])
 
     scan = BookScan(
         isbn=isbn,
