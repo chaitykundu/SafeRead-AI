@@ -29,7 +29,7 @@ def scan_book(request: ISBNRequest):
     if not is_valid_isbn(isbn):
         raise HTTPException(
             status_code=400,
-            detail="Invalid ISBN format. Please provide a valid ISBN-10 or ISBN-13."
+            detail="Invalid ISBN. The check digit is incorrect."
         )
 
     db: Session = SessionLocal()
@@ -146,7 +146,7 @@ async def scan_book_image(file: UploadFile = File(...)):
         )
 
     # Step 4: Run AI analysis (same as manual flow)
-    #ai_result = analyze_book(book["summary"])
+    ai_result = analyze_book(book["summary"])
 
     scan = BookScan(
         isbn=isbn,
