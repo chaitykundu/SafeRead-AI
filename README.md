@@ -1,45 +1,45 @@
 # SafeRead-AI
 
-# 📚 SafeRead AI – Child-Safe Book Analysis System
+# SafeRead AI – Child-Safe Book Analysis System
 
 SafeRead AI is an **AI-powered book safety analysis platform** designed to help parents, educators, and guardians determine whether a book is suitable for children.
 
 The system scans a book using its **barcode / ISBN**, fetches metadata from multiple sources, and uses **AI-powered content analysis** to evaluate age suitability and potentially sensitive content.
 
-## 🚀 Features
+## Features
 
-- 📷 **Barcode / ISBN Scanner**
+- **Barcode / ISBN Scanner**
   - Upload book barcode images
   - Extract ISBN automatically from barcode
 
-- 📖 **Multi-source Book Metadata Fetching**
+- **Multi-source Book Metadata Fetching**
   - Google Books API
   - Open Library API
   - Local database cache
 
-- 🤖 **AI Content Safety Analysis**
+- **AI Content Safety Analysis**
   - Violence detection
   - Profanity analysis
   - Sexual content screening
   - Gender identity theme detection
   - Age recommendation scoring
 
-- 🟢 **Safety Rating System**
+- **Safety Rating System**
   - Green → Safe
   - Yellow → Caution
   - Red → Sensitive
 
-- 🗄️ **Database Caching**
+- **Database Caching**
   - Stores scanned books using SQLAlchemy
   - Reuses previously analyzed ISBNs
   - Reduces API calls and improves speed
 
-- ⚡ **FastAPI Backend**
+-  **FastAPI Backend**
   - RESTful API endpoints
   - JSON responses
   - Production-ready backend structure
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 - Python
@@ -56,7 +56,7 @@ The system scans a book using its **barcode / ISBN**, fetches metadata from mult
 - Barcode / ISBN extraction
 - Image upload support
 ---
-## 📂 Project Structure
+## Project Structure
 
 ``bash
 SafeReadAI/
@@ -82,7 +82,7 @@ SafeReadAI/
 ├── .env
 └── README.md
 
-🔄 Workflow
+Workflow
 
 Barcode Image
       ↓
