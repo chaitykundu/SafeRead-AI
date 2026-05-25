@@ -119,6 +119,10 @@ pip install -r requirements.txt
 
 uvicorn app.main:app --reload
 
+🔗 Play Store:
+https://play.google.com/store/apps/details?id=com.qandelshield.app
+
+
 uvicorn app.main:app --reload --port 8002
 
 SELECT * FROM public.book_scans
